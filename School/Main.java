@@ -1,4 +1,6 @@
-class Main{
+import ads.iiisemestre.inf009.*;
+
+public class Main{
     public static void main(String[] args) {
         School IFBA = new School("IFBA");
         Student[] students = new Student[4];

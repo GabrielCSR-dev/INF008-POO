@@ -1,4 +1,6 @@
-class Student{
+package ads.iiisemestre.inf009;
+
+public class Student{
     private String name;
     private int age;
     private int ID;

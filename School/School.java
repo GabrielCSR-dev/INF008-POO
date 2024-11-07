@@ -1,6 +1,8 @@
 // Os valores atuais dos atributos definem o ESTADO do objeto
 // O conjunto de métodos públicos definem a API pública da classe
-class School{
+package ads.iiisemestre.inf009;
+
+public class School{
     private int qtdStudent;
     private Student[] group = new Student[3];
     private String name;
