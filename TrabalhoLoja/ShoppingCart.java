@@ -1,28 +1,27 @@
 import java.util.HashMap;
 
 class ShoppingCart{
-    private HashMap<Product, int> shoppingCart = new HashMap<Product, int>();
+    private HashMap<Product, Integer> shoppingCart = new HashMap<Product, Integer>();
     private float totalPrice = 0;
 
     public ShoppingCart(){
     }
 
     public void addProductIfPossible(Product product, int quantity){
-        int totalQuantity = quantity + shoppingCart.getOrDefault(product, 0);
-        if(shoppingCart.containsKey(product) && product.isThereEnoughStock(totalQuantity)){
-                shoppingCart.replace(product, totalQuantity);
+        if(shoppingCart.containsKey(product) && product.consumeIfAvailable(quantity)){
                 totalPrice += quantity*product.getPrice();
-        } else if(product.isThereEnoughStock(quantity)){
+                quantity += shoppingCart.get(product);
+                shoppingCart.replace(product, quantity);
+        } else if(product.consumeIfAvailable(quantity)){
+                totalPrice += quantity*product.getPrice();
                 shoppingCart.put(product, quantity);
-                totalPrice += quantity*product.getPrice();
         } else System.out.println("Error: the desired quantity is above the product's stock.");
     }
 
-    public void display(){
-        System.out.println("SHOPPING CART:");
-        for(Product product, int quantity : shoppingCart.entryset()){
-            product.displayForCart();
-            System.out.println(" | Amount of units: " + quantity);
+    public void display(){ 
+        for(Product product : shoppingCart.keySet()){
+            product.display();
+            System.out.println(" | Amount of units: " + shoppingCart.get(product));
         }
         System.out.println("\nTotal Price: " + String.format("%.2f", totalPrice) + "R$");
     }

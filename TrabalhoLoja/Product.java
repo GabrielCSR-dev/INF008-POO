@@ -20,36 +20,31 @@ class Product{
         registeredProducts.add(this);
     }
 
-    public static void displayForCart(){
-        System.out.print("ID " + product.ID + ") Name: " + product.name + " | Price: " + product.price);
+    public void display(){
+        System.out.print("ID " + ID + ") Name: " + name + " | Price: " + String.format("%.2f", price) + "R$");
     }
-    
     public static void displayAll(){
         System.out.println("List of products: ");
-        for(Product product : registeredProducts)
-            System.out.println("ID " + product.ID + ") Name: " + product.name + " | Quantity available: " + product.stockQuantity + " | Price: " + product.price);
+        for(Product product : registeredProducts){
+            product.display();
+            System.out.println(" | Quantity available: " + product.stockQuantity);
+        }
     }
 
-    public boolean isThereEnoughStock(int desiredQuantity){
-        return desiredQuantity <= stockQuantity;
-    }
-    public boolean isThereEnoughStock(){
-        return stockQuantity == 0;
-    }
-
-    public void consumeStock(int desiredQuantity){
-        if(isThereEnoughStock(desiredQuantity))
+    public boolean consumeIfAvailable(int desiredQuantity){
+        if(desiredQuantity <= stockQuantity){
             stockQuantity -= desiredQuantity;
-        else System.out.println("There is not enough stock for this product.");
+            return true;
+        } else return false;
     }
 
     public static Product get(int index){
-        if(index < 0 || index >= size())
+        if(index < 0 || index >= numberOfProducts)
             return null;
         else return registeredProducts.get(index);
     }
 
-    public int getPrice(){
-        return this.price;
+    public float getPrice(){
+        return price;
     }
 }

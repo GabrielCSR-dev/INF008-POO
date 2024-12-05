@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 class User{
     private int ID;
@@ -10,6 +11,7 @@ class User{
     private String email = null;
     private static HashMap<String, User> userMap = new HashMap<String, User>();
     private byte[] password;
+    private Scanner scanner = new Scanner(System.in);
 
     private User(){
     }
@@ -24,6 +26,19 @@ class User{
         }
     }
 
+    public static void login(){
+        while(true){
+            System.out.prinln("[Login Menu]\nInsert your e-mail:");
+            String emailLogin = scanner.nextLine();
+            System.out.prinln("Insert your password:");
+            String passwordLogin = scanner.nextLine();
+            User userLogin = userMap.get(emailLogin);
+            if(userLogin == null || )
+        }
+    }
+    private boolean passwordValidation(){
+        
+    }
     private byte[] passwordHashing(String passwordToHash) throws Exception {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -38,11 +53,14 @@ class User{
         return email != null;
     }
 
+    public void displayName(){
+        System.out.print(name);
+    }
     public void display(){
-        System.out.println(name + " - " + email + " - " + ID);
+        System.out.print("ID " + ID + ") Name: " + name + " | Email: " + email);
     }
 
-    public static void displayAll(){
+    public static void displayAll(){ //Unecessary, delete later
         for(String indexEmail : userMap.keySet()){
             User user = userMap.get(indexEmail);
             System.out.println(user.name + " - " + user.email + " - " + user.ID);
