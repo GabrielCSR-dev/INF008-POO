@@ -28,16 +28,19 @@ class User{
 
     public static void login(){
         while(true){
-            System.out.prinln("[Login Menu]\nInsert your e-mail:");
-            String emailLogin = scanner.nextLine();
-            System.out.prinln("Insert your password:");
-            String passwordLogin = scanner.nextLine();
-            User userLogin = userMap.get(emailLogin);
-            if(userLogin == null || )
+            String[2] login = UIController.loginMenu();
+            User loggedUser = userMap.get(login[0]);
+            loginValidation(login[1], loggedUser);
         }
     }
-    private boolean passwordValidation(){
-        
+    private void loginValidation(String passwordTest, User userTest){
+        byte[] passwordTestHashed = passwordHashing(passwordTest);
+        if(userTest != null && (passwordTestHashed == userTest.password)){
+            if(userTest instanceof Customer)
+                ((Customer)userTest).chooseOption();
+            else(userTest instanceof Administrator{
+                ((Administrator)userTest).chooseOption();
+        } else System.out.println("Error: Invalid user or password.");
     }
     private byte[] passwordHashing(String passwordToHash) throws Exception {
         SecureRandom random = new SecureRandom();
