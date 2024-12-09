@@ -6,7 +6,6 @@ class Administrator extends User{
     public Administrator(String name, String email, String password) throws Exception{
         super(name, email, password);
     }
-<<<<<<< HEAD
     public void chooseOption() throws Exception{
         while(true){
             super.displayName();
@@ -54,9 +53,5 @@ class Administrator extends User{
             else break;
         }
         return type;
-=======
-    public void chooseOption(){
-        System.out.println("I'm an administrator!");
->>>>>>> 1cf2e54ca6c94db96986efc090fe7902accd5c83
     }
 }
