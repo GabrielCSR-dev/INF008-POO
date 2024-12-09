@@ -29,16 +29,29 @@ class User{
 
     public static void login() throws Exception {
         while(true){
+<<<<<<< HEAD
             String[] login = UIController.loginMenu();
+=======
+            String[2] login = UIController.loginMenu();
+>>>>>>> 1cf2e54ca6c94db96986efc090fe7902accd5c83
             User loggedUser = userMap.get(login[0]);
             loginValidation(login[1], loggedUser);
         }
     }
+<<<<<<< HEAD
     private static void loginValidation(String passwordTest, User userTest) throws Exception {
         if(userTest != null && (Arrays.equals(passwordHashing(userTest.salt, passwordTest), userTest.password))){
             if(userTest instanceof Customer)
                 ((Customer)userTest).chooseOption();
             else if(userTest instanceof Administrator)
+=======
+    private void loginValidation(String passwordTest, User userTest){
+        byte[] passwordTestHashed = passwordHashing(passwordTest);
+        if(userTest != null && (passwordTestHashed == userTest.password)){
+            if(userTest instanceof Customer)
+                ((Customer)userTest).chooseOption();
+            else(userTest instanceof Administrator{
+>>>>>>> 1cf2e54ca6c94db96986efc090fe7902accd5c83
                 ((Administrator)userTest).chooseOption();
         } else System.out.println("Error: Invalid user or password.");
     }
