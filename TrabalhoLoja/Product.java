@@ -21,7 +21,7 @@ class Product{
     }
 
     public void display(){
-        System.out.print("ID " + ID + ") Name: " + name + " | Price: " + String.format("%.2f", price) + "R$");
+        System.out.print("ID " + ID + ") Name: " + name + " | Description: " + description + " | Category: " + category + " | Price: " + String.format("%.2f", price) + "R$");
     }
     public static void displayAll(){
         System.out.println("List of products: ");
@@ -29,6 +29,18 @@ class Product{
             product.display();
             System.out.println(" | Quantity available: " + product.stockQuantity);
         }
+    }
+    public static void displayLeastStocked(){
+        if(registeredProducts.isEmpty()){
+            System.out.println("There are no registered products."); return;
+        }
+        Product leastStocked = registeredProducts.get(0);
+        for(Product product : registeredProducts)
+            if(product.stockQuantity < leastStocked.stockQuantity)
+                leastStocked = product;
+        System.out.println("Least stocked product:");
+        leastStocked.display();
+        System.out.println(" | Quantity available: " + leastStocked.stockQuantity);
     }
 
     public boolean consumeIfAvailable(int desiredQuantity){

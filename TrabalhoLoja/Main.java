@@ -13,6 +13,6 @@ public class Main{
         User.displayAll();
         Product.displayAll();
 
-        // Gabriel.login();
+        User.login();
     }
 }

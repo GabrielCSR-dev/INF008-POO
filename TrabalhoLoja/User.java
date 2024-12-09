@@ -1,8 +1,9 @@
 import java.util.HashMap;
 import java.security.SecureRandom;
-import java.security.MessageDigest;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import java.security.spec.KeySpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.SecretKeyFactory;
+import java.util.Arrays;
 
 class User{
     private int ID;
@@ -10,8 +11,8 @@ class User{
     private String name;
     private String email = null;
     private static HashMap<String, User> userMap = new HashMap<String, User>();
+    private byte[] salt = new byte[16];
     private byte[] password;
-    private Scanner scanner = new Scanner(System.in);
 
     private User(){
     }
@@ -20,32 +21,31 @@ class User{
             this.ID = numberOfUsers++;
             this.name = name;
             this.email = email;
-            this.password = passwordHashing(password);
-        }else{
-            System.out.println("This email has already been registered!");
-        }
+            SecureRandom random = new SecureRandom();
+            random.nextBytes(this.salt);
+            this.password = passwordHashing(salt, password);
+        }else System.out.println("This email has already been registered!");
     }
 
-    public static void login(){
+    public static void login() throws Exception {
         while(true){
-            System.out.prinln("[Login Menu]\nInsert your e-mail:");
-            String emailLogin = scanner.nextLine();
-            System.out.prinln("Insert your password:");
-            String passwordLogin = scanner.nextLine();
-            User userLogin = userMap.get(emailLogin);
-            if(userLogin == null || )
+            String[] login = UIController.loginMenu();
+            User loggedUser = userMap.get(login[0]);
+            loginValidation(login[1], loggedUser);
         }
     }
-    private boolean passwordValidation(){
-        
+    private static void loginValidation(String passwordTest, User userTest) throws Exception {
+        if(userTest != null && (Arrays.equals(passwordHashing(userTest.salt, passwordTest), userTest.password))){
+            if(userTest instanceof Customer)
+                ((Customer)userTest).chooseOption();
+            else if(userTest instanceof Administrator)
+                ((Administrator)userTest).chooseOption();
+        } else System.out.println("Error: Invalid user or password.");
     }
-    private byte[] passwordHashing(String passwordToHash) throws Exception {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-        MessageDigest md = MessageDigest.getInstance("SHA-512");
-        md.update(salt);
-        byte[] hashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+    private static byte[] passwordHashing(byte[] salt, String passwordToHash) throws Exception {
+        KeySpec spec = new PBEKeySpec(passwordToHash.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hashedPassword = factory.generateSecret(spec).getEncoded();
         return hashedPassword;
     }
 
@@ -63,7 +63,7 @@ class User{
     public static void displayAll(){ //Unecessary, delete later
         for(String indexEmail : userMap.keySet()){
             User user = userMap.get(indexEmail);
-            System.out.println(user.name + " - " + user.email + " - " + user.ID);
+            System.out.println(user.name + " - " + user.email + " - " + user.ID + " - " + user.password + " - " + user.salt);
         }
     }
 }

@@ -6,31 +6,37 @@ class Order{
     private int ID;
     private Customer buyer; 
     private LocalDate Date;
-    // private int totalPrice;
+    private float totalPrice = 0;
     private ShoppingCart cart = new ShoppingCart();
     private static int numberOfOrders = 0;
     private static ArrayList<Order> orderHistory = new ArrayList<Order>();
     private Scanner scanner = new Scanner(System.in);
 
-    public Order(Customer buyer){
-        this.ID = numberOfOrders++;
-        this.buyer = buyer;
-        this.Date = LocalDate.now();
+    public Order(){
     }
 
-    public void startOperation() throws Exception{
+    public void startOperation(Customer buyer) throws Exception{
         do{
            UIController.orderMenu();
            int menuChoice = scanner.nextInt();
            switch(menuChoice){
                 case 1: cart = addProduct(); break;
-                case 2: cart.display(); break;
-                case 3: orderHistory.add(this); return;
+                case 2: cart.display(); System.out.println("\nTotal Price: " + String.format("%.2f", totalPrice) + "R$"); break;
+                case 3: finishOrder(buyer); return;
+                case 4: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
         }while(true);
     }
 
+    private void finishOrder(Customer buyer){
+        if(!cart.isEmpty()){
+            this.ID = numberOfOrders++;
+            this.buyer = buyer;
+            this.Date = LocalDate.now();
+            orderHistory.add(this);
+        }
+    }
     private ShoppingCart addProduct(){
         do{
             Product.displayAll();
@@ -41,23 +47,37 @@ class Order{
             if(product != null){
                 System.out.println("Insert the amount of units: ");
                 int chosenQuantity = scanner.nextInt();
-                cart.addProductIfPossible(product, chosenQuantity);
+                if(cart.addProductIfPossible(product, chosenQuantity))
+                    totalPrice += chosenQuantity*product.getPrice();
             }else System.out.println("This ID doesn't exist.");
         }while(true);
         return cart;
     }
 
+    public static void displayMostExpensive(){
+        if(orderHistory.isEmpty()){
+            System.out.println("Order history is empty."); return;
+        }
+        Order biggestOrder = orderHistory.get(0);
+        for(Order order : orderHistory)
+            if(order.totalPrice > biggestOrder.totalPrice)
+                biggestOrder = order;
+        System.out.println("Most expensive order:");
+        biggestOrder.display();
+    }
     public void display(){
         System.out.println("Date: " + Date);
         cart.display();
+        System.out.println("\nTotal Price: " + String.format("%.2f", totalPrice) + "R$");
     }
     public static void displayHistory(){ //For testing
         System.out.println("ORDER HISTORY: ");
         for(Order order : orderHistory){
-            System.out.println("ID " + order.ID + ")");
+            System.out.println("<Order " + order.ID + ">");
             order.display();
             System.out.print("Buyer: ");
             order.buyer.display();
+            System.out.println();
         }
     }
 }

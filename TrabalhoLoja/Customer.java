@@ -21,20 +21,21 @@ class Customer extends User{
             switch(menuChoice){
                 case 1: makeOrder(); break;
                 case 2: return;
+                case 3: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
         }
     }
     private void makeOrder() throws Exception{
-        Order newOrder = new Order(this);
-        newOrder.startOperation();
+        Order newOrder = new Order();
+        newOrder.startOperation(this);
         orderHistory.add(newOrder);
     }
-    
+    @Override
     public void display(){
         System.out.println(" | Adress: " + deliveryAdress);
     }
-    public void displayHistory(){
+    public void displayHistory(){ //For testing
         System.out.println("USER'S ORDER HISTORY: ");
         for(Order order : orderHistory){
             System.out.println(orderHistory.indexOf(order) + ")");
