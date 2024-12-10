@@ -1,11 +1,12 @@
 import java.util.HashMap;
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.SecretKeyFactory;
 import java.util.Arrays;
 
-class User{
+class User implements Serializable{
     private int ID;
     private static int numberOfUsers = 0;
     private String name;
@@ -27,7 +28,7 @@ class User{
         }else System.out.println("This email has already been registered!");
     }
 
-    public static void login() throws Exception {
+    public final static void login() throws Exception {
         while(true){
             String[] login = UIController.loginMenu();
             User loggedUser = userMap.get(login[0]);
@@ -65,5 +66,19 @@ class User{
             User user = userMap.get(indexEmail);
             System.out.println(user.name + " - " + user.email + " - " + user.ID + " - " + user.password + " - " + user.salt);
         }
+    }
+
+    public static void save() throws Exception{
+        for(User user : userMap.values())
+            Archive.write(user);
+    }
+    public static void load(Object register) throws Exception{
+        // if(register instanceof Administrator){
+        //     Administrator reg = (Administrator)register;
+        // }else if(register instanceof Customer){
+        //     Customer reg = (Customer)register;
+        // }
+        userMap.putIfAbsent(((User)register).email, ((User)register));
+        numberOfUsers++;
     }
 }

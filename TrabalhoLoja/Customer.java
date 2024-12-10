@@ -3,8 +3,7 @@ import java.util.Scanner;
 
 class Customer extends User{
     private String deliveryAdress;
-    private ArrayList<Order> orderHistory = new ArrayList<Order>();
-    private Scanner scanner = new Scanner(System.in);
+    private ArrayList<Order> orderHistory = new ArrayList<Order>(); 
 
     public Customer(String name, String email, String password, String deliveryAdress) throws Exception{
         super(name, email, password);
@@ -13,6 +12,7 @@ class Customer extends User{
     }
 
     public void chooseOption() throws Exception{
+        Scanner scanner = new Scanner(System.in);
         while(true){
             super.displayName();
             System.out.println(", welcome!");
@@ -20,7 +20,7 @@ class Customer extends User{
             int menuChoice = scanner.nextInt();
             switch(menuChoice){
                 case 1: makeOrder(); break;
-                case 2: return;
+                case 2: scanner.close(); return;
                 case 3: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
@@ -31,8 +31,8 @@ class Customer extends User{
         newOrder.startOperation(this);
         orderHistory.add(newOrder);
     }
-    @Override
     public void display(){
+        super.display();
         System.out.println(" | Adress: " + deliveryAdress);
     }
     public void displayHistory(){ //For testing

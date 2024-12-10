@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-class Product{
+class Product implements Serializable{
     private int ID;
     private String name;
     private String description;
@@ -58,5 +59,14 @@ class Product{
 
     public float getPrice(){
         return price;
+    }
+
+    public static void save() throws Exception{
+        for(Product product : registeredProducts)
+            Archive.write(product);
+    }
+    public static void load(Object register) throws Exception{
+        registeredProducts.add(((Product)register));
+        numberOfProducts++;
     }
 }

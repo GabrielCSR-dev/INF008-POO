@@ -14,10 +14,10 @@ public class Main
         students.add(new Student("EDUARDO", 23));
         students.add(new Student("LUZIA", 24));
 
-        FileOutputStream fos = new FileOutputStream("students.dat");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(students);
-        fos.close();
+        // FileOutputStream fos = new FileOutputStream("students.dat");
+        // ObjectOutputStream oos = new ObjectOutputStream(fos);
+        // oos.writeObject(students);
+        // fos.close();
 
         // FileInputStream fis = new FileInputStream("students.dat");
         // ObjectInputStream ois = new ObjectInputStream(fis);
