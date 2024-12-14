@@ -5,19 +5,19 @@ class Administrator extends User{
     public Administrator(String name, String email, String password) throws Exception{
         super(name, email, password);
     }
-    public void chooseOption() throws Exception{
+    public void enter() throws Exception{
         Scanner scanner = new Scanner(System.in);
         while(true){
             super.displayName();
             System.out.println(", welcome!");
-            UIController.adminMenu();
+            UIController.adminHomeUI();
             int menuChoice = scanner.nextInt();
             switch(menuChoice){
                 case 1: createNewProduct(); break;
                 case 2: createNewUser(); break;
                 case 3: Order.displayMostExpensive(); break;
                 case 4: Product.displayLeastStocked(); break;
-                case 5: scanner.close(); return;
+                case 5: return;
                 default: System.out.println("Invalid option."); break;
            }
         }

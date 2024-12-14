@@ -1,7 +1,7 @@
 public class Main{
     public static void main(String[] args) throws Exception {
         Archive.load();
-        // Administrator admin = new Administrator("admin", "bigboss123@hotmail.com", "admin");
+        // Administrator admin = new Administrator("admin", "admin", "admin");
         // Customer Arnaldo = new Customer("Arnaldo", "arnaldogameplays@gmail.com", "Senha123", "Matatu");
         // Customer Gabriel = new Customer("Gabriel", "gabrielcsribeiro42@gmail.com", "Senha12345", "Alagoinhas");
         // Administrator Pedro = new Administrator("Pedro", "pedroplays47@gmail.com", "Senha12345");

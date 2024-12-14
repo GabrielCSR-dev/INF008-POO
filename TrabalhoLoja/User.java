@@ -6,7 +6,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.SecretKeyFactory;
 import java.util.Arrays;
 
-class User implements Serializable{
+abstract class User implements Serializable{
     private int ID;
     private static int numberOfUsers = 0;
     private String name;
@@ -15,8 +15,7 @@ class User implements Serializable{
     private byte[] salt = new byte[16];
     private byte[] password;
 
-    private User(){
-    }
+    public abstract void enter() throws Exception;
     public User(String name, String email, String password) throws Exception {
         if(userMap.putIfAbsent(email, this) == null){
             this.ID = numberOfUsers++;
@@ -30,17 +29,14 @@ class User implements Serializable{
 
     public final static void login() throws Exception {
         while(true){
-            String[] login = UIController.loginMenu();
+            String[] login = UIController.loginUI();
             User loggedUser = userMap.get(login[0]);
             loginValidation(login[1], loggedUser);
         }
     }
     private static void loginValidation(String passwordTest, User userTest) throws Exception {
         if(userTest != null && (Arrays.equals(passwordHashing(userTest.salt, passwordTest), userTest.password))){
-            if(userTest instanceof Customer)
-                ((Customer)userTest).chooseOption();
-            else if(userTest instanceof Administrator)
-                ((Administrator)userTest).chooseOption();
+            userTest.enter();
         } else System.out.println("Error: Invalid user or password.");
     }
     private static byte[] passwordHashing(byte[] salt, String passwordToHash) throws Exception {
@@ -73,11 +69,6 @@ class User implements Serializable{
             Archive.write(user);
     }
     public static void load(Object register) throws Exception{
-        // if(register instanceof Administrator){
-        //     Administrator reg = (Administrator)register;
-        // }else if(register instanceof Customer){
-        //     Customer reg = (Customer)register;
-        // }
         userMap.putIfAbsent(((User)register).email, ((User)register));
         numberOfUsers++;
     }

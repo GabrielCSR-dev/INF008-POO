@@ -18,7 +18,7 @@ class Order implements Serializable{
     public void startOperation(Customer buyer) throws Exception{
         Scanner scanner = new Scanner(System.in);
         do{
-           UIController.orderMenu();
+           UIController.orderUI();
            int menuChoice = scanner.nextInt();
            switch(menuChoice){
                 case 1: cart = addProduct(); break;

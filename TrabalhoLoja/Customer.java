@@ -11,16 +11,16 @@ class Customer extends User{
             this.deliveryAdress = deliveryAdress;
     }
 
-    public void chooseOption() throws Exception{
+    public void enter() throws Exception{
         Scanner scanner = new Scanner(System.in);
         while(true){
             super.displayName();
             System.out.println(", welcome!");
-            UIController.customerMenu();
+            UIController.customerHomeUI();
             int menuChoice = scanner.nextInt();
             switch(menuChoice){
                 case 1: makeOrder(); break;
-                case 2: scanner.close(); return;
+                case 2: return;
                 case 3: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
