@@ -1,6 +1,6 @@
 public class Main{
     public static void main(String[] args) throws Exception {
-        Archive.load();
+        SerializationController.load();
         // Administrator admin = new Administrator("admin", "admin", "admin");
         // Customer Arnaldo = new Customer("Arnaldo", "arnaldogameplays@gmail.com", "Senha123", "Matatu");
         // Customer Gabriel = new Customer("Gabriel", "gabrielcsribeiro42@gmail.com", "Senha12345", "Alagoinhas");
@@ -14,6 +14,12 @@ public class Main{
         User.displayAll();
         Product.displayAll();
 
-        User.login();
+        while(true){
+            switch(UIController.startProgramUI()){
+                case 1: User.login(); break;
+                case 2: SerializationController.save(); System.exit(0);
+                default: System.out.println("Opção Inválida.");
+            }
+        }
     }
 }

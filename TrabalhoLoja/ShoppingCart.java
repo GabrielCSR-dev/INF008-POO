@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
-class ShoppingCart{
+class ShoppingCart implements Serializable{
     private HashMap<Product, Integer> shoppingCart = new HashMap<Product, Integer>();
 
     public ShoppingCart(){

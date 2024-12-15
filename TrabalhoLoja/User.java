@@ -15,7 +15,7 @@ abstract class User implements Serializable{
     private byte[] salt = new byte[16];
     private byte[] password;
 
-    public abstract void enter() throws Exception;
+    public abstract void enterMenu() throws Exception;
     public User(String name, String email, String password) throws Exception {
         if(userMap.putIfAbsent(email, this) == null){
             this.ID = numberOfUsers++;
@@ -28,15 +28,13 @@ abstract class User implements Serializable{
     }
 
     public final static void login() throws Exception {
-        while(true){
             String[] login = UIController.loginUI();
             User loggedUser = userMap.get(login[0]);
             loginValidation(login[1], loggedUser);
-        }
     }
     private static void loginValidation(String passwordTest, User userTest) throws Exception {
         if(userTest != null && (Arrays.equals(passwordHashing(userTest.salt, passwordTest), userTest.password))){
-            userTest.enter();
+            userTest.enterMenu();
         } else System.out.println("Error: Invalid user or password.");
     }
     private static byte[] passwordHashing(byte[] salt, String passwordToHash) throws Exception {
@@ -50,9 +48,9 @@ abstract class User implements Serializable{
         return email != null;
     }
 
-    public void displayName(){
-        System.out.print(name);
-    }
+    // public void displayName(){
+    //     System.out.print(name);
+    // }
     public void display(){
         System.out.print("ID " + ID + ") Name: " + name + " | Email: " + email);
     }
@@ -66,7 +64,7 @@ abstract class User implements Serializable{
 
     public static void save() throws Exception{
         for(User user : userMap.values())
-            Archive.write(user);
+            SerializationController.write(user);
     }
     public static void load(Object register) throws Exception{
         userMap.putIfAbsent(((User)register).email, ((User)register));

@@ -3,14 +3,14 @@ import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
-class Archive{
+class SerializationController{
     private static FileOutputStream fos;
     private static ObjectOutputStream oos;
     private static FileInputStream fis;
     private static ObjectInputStream ois;
 
 
-    public Archive() throws Exception{
+    public SerializationController() throws Exception{
     }
 
     public static void load() throws Exception{

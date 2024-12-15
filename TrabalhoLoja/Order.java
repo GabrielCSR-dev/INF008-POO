@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.time.LocalDate; 
-import java.util.Scanner;
 
 class Order implements Serializable{
     private int ID;
@@ -16,14 +15,12 @@ class Order implements Serializable{
     }
 
     public void startOperation(Customer buyer) throws Exception{
-        Scanner scanner = new Scanner(System.in);
         do{
-           UIController.orderUI();
-           int menuChoice = scanner.nextInt();
+           int menuChoice = UIController.orderUI();
            switch(menuChoice){
                 case 1: cart = addProduct(); break;
                 case 2: cart.display(); System.out.println("\nTotal Price: " + String.format("%.2f", totalPrice) + "R$"); break;
-                case 3: finishOrder(buyer); scanner.close(); return;
+                case 3: finishOrder(buyer); return;
                 case 4: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
@@ -36,24 +33,20 @@ class Order implements Serializable{
             this.buyer = buyer;
             this.Date = LocalDate.now();
             orderHistory.add(this);
+            buyer.saveOrder(this);
         }
     }
     private ShoppingCart addProduct(){
-        Scanner scanner = new Scanner(System.in);
         do{
-            Product.displayAll();
-            System.out.println("Insert the product's ID (type -1 to stop): ");
-            int chosenProductID = scanner.nextInt();
+            int chosenProductID = UIController.orderProductSelectionUI();
             if(chosenProductID == -1) break;
             Product product = Product.get(chosenProductID);
             if(product != null){
-                System.out.println("Insert the amount of units: ");
-                int chosenQuantity = scanner.nextInt();
+                int chosenQuantity = UIController.orderQuantitySelectionUI();
                 if(cart.addProductIfPossible(product, chosenQuantity))
                     totalPrice += chosenQuantity*product.getPrice();
             }else System.out.println("This ID doesn't exist.");
         }while(true);
-        scanner.close();
         return cart;
     }
 
@@ -87,7 +80,7 @@ class Order implements Serializable{
 
     public static void save() throws Exception{
         for(Order order : orderHistory)
-            Archive.write(order);
+            SerializationController.write(order);
     }
     public static void load(Object register) throws Exception{
         orderHistory.add(((Order)register));

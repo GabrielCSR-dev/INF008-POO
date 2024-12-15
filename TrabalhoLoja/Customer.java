@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 class Customer extends User{
     private String deliveryAdress;
@@ -11,24 +10,22 @@ class Customer extends User{
             this.deliveryAdress = deliveryAdress;
     }
 
-    public void enter() throws Exception{
-        Scanner scanner = new Scanner(System.in);
+    public void enterMenu() throws Exception{
         while(true){
-            super.displayName();
-            System.out.println(", welcome!");
-            UIController.customerHomeUI();
-            int menuChoice = scanner.nextInt();
+            int menuChoice = UIController.customerHomeUI();
             switch(menuChoice){
-                case 1: makeOrder(); break;
+                case 1: startOrder(); break;
                 case 2: return;
                 case 3: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
         }
     }
-    private void makeOrder() throws Exception{
+    private void startOrder() throws Exception{
         Order newOrder = new Order();
         newOrder.startOperation(this);
+    }
+    public void saveOrder(Order newOrder){
         orderHistory.add(newOrder);
     }
     public void display(){

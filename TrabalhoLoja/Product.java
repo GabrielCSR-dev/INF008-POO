@@ -63,7 +63,7 @@ class Product implements Serializable{
 
     public static void save() throws Exception{
         for(Product product : registeredProducts)
-            Archive.write(product);
+            SerializationController.write(product);
     }
     public static void load(Object register) throws Exception{
         registeredProducts.add(((Product)register));
