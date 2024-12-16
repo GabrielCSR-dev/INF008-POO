@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.io.Serializable;
 import java.time.LocalDate; 
 
@@ -9,7 +8,6 @@ class Order implements Serializable{
     private float totalPrice = 0;
     private ShoppingCart cart = new ShoppingCart();
     private static int numberOfOrders = 0;
-    private static ArrayList<Order> orderHistory = new ArrayList<Order>();
 
     public Order(){
     }
@@ -21,7 +19,6 @@ class Order implements Serializable{
                 case 1: cart = addProduct(); break;
                 case 2: cart.display(); System.out.println("\nTotal Price: " + String.format("%.2f", totalPrice) + "R$"); break;
                 case 3: finishOrder(buyer); return;
-                case 4: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
         }while(true);
@@ -29,11 +26,14 @@ class Order implements Serializable{
 
     private void finishOrder(Customer buyer){
         if(!cart.isEmpty()){
-            this.ID = numberOfOrders++;
+            ID = numberOfOrders++;
             this.buyer = buyer;
-            this.Date = LocalDate.now();
-            orderHistory.add(this);
+            Date = LocalDate.now();
+            cart.takeStock();
+            DataController.orderHistory.add(this);
             buyer.saveOrder(this);
+            if(DataController.mostExpensiveOrder != null && totalPrice > DataController.mostExpensiveOrder.totalPrice)
+                DataController.mostExpensiveOrder = this;
         }
     }
     private ShoppingCart addProduct(){
@@ -51,39 +51,27 @@ class Order implements Serializable{
     }
 
     public static void displayMostExpensive(){
-        if(orderHistory.isEmpty()){
+        if(DataController.orderHistory.isEmpty()){
             System.out.println("Order history is empty."); return;
+        } else if(DataController.mostExpensiveOrder == null){
+            DataController.mostExpensiveOrder = DataController.orderHistory.get(0);
+            for(Order order : DataController.orderHistory)
+                if(order.totalPrice > DataController.mostExpensiveOrder.totalPrice)
+                    DataController.mostExpensiveOrder = order;
         }
-        Order biggestOrder = orderHistory.get(0);
-        for(Order order : orderHistory)
-            if(order.totalPrice > biggestOrder.totalPrice) biggestOrder = order;
         System.out.println("Most expensive order:");
-        biggestOrder.display();
+        DataController.mostExpensiveOrder.display();
         System.out.print("Buyer: ");
-        biggestOrder.buyer.display();
+        DataController.mostExpensiveOrder.buyer.display();
     }
     public void display(){
-        System.out.println("Date: " + Date);
+        System.out.println("<ID " + ID + ">\nDate: " + Date);
         cart.display();
         System.out.println("Total Price: " + String.format("%.2f", totalPrice) + "R$");
     }
-    public static void displayHistory(){ //For testing
-        System.out.println("ORDER HISTORY: ");
-        for(Order order : orderHistory){
-            System.out.println("<Order " + order.ID + ">");
-            order.display();
-            System.out.print("Buyer: ");
-            order.buyer.display();
-            System.out.println();
-        }
-    }
 
-    public static void save() throws Exception{
-        for(Order order : orderHistory)
-            SerializationController.write(order);
-    }
     public static void load(Object register) throws Exception{
-        orderHistory.add(((Order)register));
+        DataController.orderHistory.add(((Order)register));
         numberOfOrders++;
     }
 }

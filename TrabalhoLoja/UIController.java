@@ -3,11 +3,6 @@ import java.util.Scanner;
 class UIController{
     private static Scanner scanner = new Scanner(System.in);
     
-    public static int startProgramUI(){
-        System.out.println("[Cabral e-Shop]");
-        System.out.println("1 - Login\n2 - Exit");
-        return scanner.nextInt();
-    }
     public static String[] loginUI() throws Exception{
         scanner = new Scanner(System.in);
         String[] login = new String[2];
@@ -20,8 +15,7 @@ class UIController{
     public static int adminHomeUI(){
         System.out.println("[Administrator Menu]");
         System.out.println("Please, select an option:");
-        System.out.println("1 - Create new product\n2 - Create new user\n3 - Report most expensive order\n4 - Report product with lowest inventory\n5 - Exit");
-        System.out.println();
+        System.out.println("1 - Create new product\n2 - Create new user\n3 - Report most expensive order\n4 - Report product with lowest inventory\n5 - Exit\n");
         return scanner.nextInt();
     }
     public static String[] adminProductCreationUI(){
@@ -60,13 +54,11 @@ class UIController{
         System.out.println("[Customer Menu]");
         System.out.println("Please, select an option:");
         System.out.println("1 - Start new order\n2 - Exit\n");
-        System.out.println();
         return scanner.nextInt();
     }
     public static int orderUI(){
         System.out.println("[Order Menu]");
-        System.out.println("1 - Add product\n2 - View shopping cart\n3 - Finish order");
-        System.out.println();
+        System.out.println("1 - Add product\n2 - View shopping cart\n3 - Finish order\n");
         return scanner.nextInt(); 
     }
     public static int orderProductSelectionUI(){

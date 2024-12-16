@@ -16,7 +16,6 @@ class Customer extends User{
             switch(menuChoice){
                 case 1: startOrder(); break;
                 case 2: return;
-                case 3: displayHistory(); break; //For testing
                 default: System.out.println("Invalid option."); break;
            }
         }
@@ -31,12 +30,5 @@ class Customer extends User{
     public void display(){
         super.display();
         System.out.println(" | Adress: " + deliveryAdress);
-    }
-    public void displayHistory(){ //For testing
-        System.out.println("USER'S ORDER HISTORY: ");
-        for(Order order : orderHistory){
-            System.out.println(orderHistory.indexOf(order) + ")");
-            order.display();
-        }
     }
 }

@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
@@ -11,13 +10,12 @@ abstract class User implements Serializable{
     private static int numberOfUsers = 0;
     private String name;
     private String email = null;
-    private static HashMap<String, User> userMap = new HashMap<String, User>();
     private byte[] salt = new byte[16];
     private byte[] password;
 
     public abstract void enterMenu() throws Exception;
     public User(String name, String email, String password) throws Exception {
-        if(userMap.putIfAbsent(email, this) == null){
+        if(DataController.userMap.putIfAbsent(email, this) == null){
             this.ID = numberOfUsers++;
             this.name = name;
             this.email = email;
@@ -29,7 +27,7 @@ abstract class User implements Serializable{
 
     public final static void login() throws Exception {
             String[] login = UIController.loginUI();
-            User loggedUser = userMap.get(login[0]);
+            User loggedUser = DataController.userMap.get(login[0]);
             loginValidation(login[1], loggedUser);
     }
     private static void loginValidation(String passwordTest, User userTest) throws Exception {
@@ -48,26 +46,11 @@ abstract class User implements Serializable{
         return email != null;
     }
 
-    // public void displayName(){
-    //     System.out.print(name);
-    // }
     public void display(){
         System.out.print("ID " + ID + ") Name: " + name + " | Email: " + email);
     }
-
-    public static void displayAll(){ //Unecessary, delete later
-        for(String indexEmail : userMap.keySet()){
-            User user = userMap.get(indexEmail);
-            System.out.println(user.name + " - " + user.email + " - " + user.ID + " - " + user.password + " - " + user.salt);
-        }
-    }
-
-    public static void save() throws Exception{
-        for(User user : userMap.values())
-            SerializationController.write(user);
-    }
     public static void load(Object register) throws Exception{
-        userMap.putIfAbsent(((User)register).email, ((User)register));
+        DataController.userMap.putIfAbsent(((User)register).email, ((User)register));
         numberOfUsers++;
     }
 }
