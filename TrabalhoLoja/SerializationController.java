@@ -21,15 +21,8 @@ class SerializationController{
         fis = new FileInputStream("storeRegister.dat");
         ois = new ObjectInputStream(fis);
         Object register = ois.readObject();
-        while((register = ois.readObject()).equals("(END)") == false){
-            if(register instanceof User){
-                User.load(register);
-            }else if(register instanceof Product){
-                Product.load(register);
-            }else if(register instanceof Order){
-                Order.load(register);
-            }
-        }
+        while((register = ois.readObject()).equals("(END)") == false)
+            register.load(register);
         fis.close();
         ois.close();
         return true;
@@ -45,10 +38,7 @@ class SerializationController{
         fos.close();
         oos.close();
     }
-    public static void write(Object register) throws Exception{
-        oos.writeObject(register);
-    }
-    private static void save(Collection<?> list) throws Exception{
+    public static void save(Collection<?> list) throws Exception{
         for(Object object : list)
             oos.writeObject(object);
     }
