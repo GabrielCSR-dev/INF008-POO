@@ -12,7 +12,8 @@
         <module>interfaces</module>
         <module>app</module>
         <module>plugins/myplugin</module>
-        <module>plugins/book</module>
+        <module>models</module>
+        <!-- <module>models2</module> -->
     </modules>
 
     <properties>

@@ -1,8 +1,12 @@
 package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.IUIController;
+
+import java.util.HashMap;
+
 import br.edu.ifba.inf008.interfaces.ICore;
 import br.edu.ifba.inf008.shell.PluginController;
+import br.edu.ifba.inf008.models.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -55,6 +59,7 @@ public class UIController extends Application implements IUIController
         primaryStage.show();
 
         Core.getInstance().getPluginController().init();
+        Book.init();
     }
 
     public MenuItem createMenuItem(String menuText, String menuItemText) {
@@ -85,5 +90,10 @@ public class UIController extends Application implements IUIController
         tabPane.getTabs().add(tab);
 
         return true;
+    }
+
+    public void createMenuScreen(Class<?> clazz, HashMap<String,String> methodAndLabel){
+        
+
     }
 }

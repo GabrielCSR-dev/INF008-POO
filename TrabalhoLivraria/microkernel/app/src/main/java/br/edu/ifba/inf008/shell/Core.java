@@ -4,6 +4,9 @@ import br.edu.ifba.inf008.interfaces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 
+import javafx.application.Platform;
+
+
 public class Core extends ICore
 {
     private Core() {}
