@@ -1,8 +1,8 @@
 package br.edu.ifba.inf008.interfaces;
 
-import br.edu.ifba.inf008.interfaces.ICore;
+import javafx.scene.layout.VBox;
 
 public interface IPlugin
 {
-    public abstract boolean init();
+    public abstract boolean init(VBox vbox);
 }

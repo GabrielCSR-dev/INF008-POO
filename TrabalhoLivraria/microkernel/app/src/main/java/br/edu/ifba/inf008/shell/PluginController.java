@@ -2,8 +2,8 @@ package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.App;
 import br.edu.ifba.inf008.interfaces.IPluginController;
+import javafx.scene.layout.VBox;
 import br.edu.ifba.inf008.interfaces.IPlugin;
-import br.edu.ifba.inf008.interfaces.ICore;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
@@ -11,7 +11,7 @@ import java.net.URLClassLoader;
 
 public class PluginController implements IPluginController
 {
-    public boolean init() {
+    public boolean init(VBox vbox) {
         try {
             File currentDir = new File("./plugins");
 
@@ -35,7 +35,7 @@ public class PluginController implements IPluginController
             {
                 String pluginName = plugins[i].split("\\.")[0];
                 IPlugin plugin = (IPlugin) Class.forName("br.edu.ifba.inf008.plugins." + pluginName, true, ulc).newInstance();
-                plugin.init();
+                plugin.init(vbox);
             }
 
             return true;

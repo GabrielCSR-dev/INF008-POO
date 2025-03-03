@@ -1,11 +1,6 @@
 package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.*;
-import javafx.application.Application;
-import javafx.application.Platform;
-
-import javafx.application.Platform;
-
 
 public class Core extends ICore
 {
@@ -34,7 +29,11 @@ public class Core extends ICore
     public IPluginController getPluginController() {
         return pluginController;
     }
+    public IDataController getDataController(){
+        return dataController;
+    }
 
+    private IDataController dataController = new DataController();
     private IAuthenticationController authenticationController = new AuthenticationController();
     private IIOController ioController = new IOController();
     private IPluginController pluginController = new PluginController();

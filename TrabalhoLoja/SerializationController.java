@@ -22,7 +22,12 @@ class SerializationController{
         ois = new ObjectInputStream(fis);
         Object register = ois.readObject();
         while((register = ois.readObject()).equals("(END)") == false)
-            register.load(register);
+            if(register instanceof User)
+                User.load(register);
+            else if(register instanceof Product)
+                Product.load(register);
+            else if(register instanceof Order)
+                Order.load(register);
         fis.close();
         ois.close();
         return true;
